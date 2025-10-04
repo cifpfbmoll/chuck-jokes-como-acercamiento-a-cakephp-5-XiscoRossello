@@ -1,53 +1,179 @@
-# CakePHP Application Skeleton
+# Chuck Norris Jokes - CakePHP 5
 
-![Build Status](https://github.com/cakephp/app/actions/workflows/ci.yml/badge.svg?branch=5.x)
-[![Total Downloads](https://img.shields.io/packagist/dt/cakephp/app.svg?style=flat-square)](https://packagist.org/packages/cakephp/app)
-[![PHPStan](https://img.shields.io/badge/PHPStan-level%208-brightgreen.svg?style=flat-square)](https://github.com/phpstan/phpstan)
+## 🚀 Aplicación Chuck Norris Jokes - CakePHP 5
 
-A skeleton for creating applications with [CakePHP](https://cakephp.org) 5.x.
+Esta aplicación implementa un sistema completo de chistes de Chuck Norris utilizando **CakePHP 5**, **SQLite** y la **API de Chuck Norris**. Desarrollada como proyecto educativo para aprender las funcionalidades principales del framework.
 
-The framework source code can be found here: [cakephp/cakephp](https://github.com/cakephp/cakephp).
+### ✨ Características implementadas:
 
-## Installation
+- **🔌 API Integration**: Conecta con https://api.chucknorris.io/jokes/random
+- **💾 Base de datos SQLite**: Almacenamiento local optimizado y ligero
+- **💡 Sistema de guardado**: Permite guardar chistes favoritos en la base de datos
+- **⚡ Optimizaciones de rendimiento**: Cache en sesión y consultas optimizadas
+- **🔒 Validación de duplicados**: Evita chistes repetidos en la base de datos
+- **📱 Interfaz responsive**: Diseño limpio con Bootstrap y formularios intuitivos
+- **🚦 Manejo de errores**: Mensajes flash informativos y manejo robusto de excepciones
 
-1. Download [Composer](https://getcomposer.org/doc/00-intro.md) or update `composer self-update`.
-2. Run `php composer.phar create-project --prefer-dist cakephp/app [app_name]`.
+### 🛠️ Tecnologías utilizadas:
 
-If Composer is installed globally, run
+- **Framework**: CakePHP 5.x
+- **Base de datos**: SQLite 3
+- **PHP**: 8.1+ (recomendado 8.2/8.3)
+- **Frontend**: HTML5, Bootstrap CSS
+- **API Externa**: Chuck Norris Jokes API
 
-```bash
-composer create-project --prefer-dist cakephp/app
+### 📋 Requisitos previos:
+
+- PHP 8.1+ (recomendado 8.2/8.3)
+- Composer 2.x
+- Extensión pdo_sqlite habilitada
+- Git para el control de versiones
+
+### 🚀 Instalación y configuración:
+
+1. **Clonar el repositorio**:
+   ```bash
+   git clone https://github.com/cifpfbmoll/chuck-jokes-como-acercamiento-a-cakephp-5-XiscoRossello.git
+   cd chuck-jokes-como-acercamiento-a-cakephp-5-XiscoRossello
+   ```
+
+2. **Instalar dependencias**:
+   ```bash
+   composer install
+   ```
+
+3. **Configurar base de datos**:
+   - El archivo `config/app_local.php` ya está configurado para SQLite
+   - La base de datos se crea automáticamente en `tmp/database.sqlite`
+
+4. **Ejecutar migraciones**:
+   ```bash
+   php bin/cake.php migrations migrate
+   ```
+
+5. **Iniciar servidor de desarrollo**:
+   ```bash
+   php -S 0.0.0.0:8765 -t webroot
+   ```
+
+6. **Acceder a la aplicación**:
+   - URL principal: http://localhost:8765/
+   - Chistes de Chuck Norris: http://localhost:8765/jokes/random
+
+### 🎯 Funcionalidades principales:
+
+#### � Ver chiste aleatorio
+- Accede a `/jokes/random` para obtener un chiste aleatorio de la API
+- El chiste se muestra en un blockquote estilizado
+- Sistema de cache en sesión para mejorar el rendimiento
+
+#### 💾 Guardar chistes
+- Botón "Guardar" para almacenar el chiste en la base de datos local
+- Validación automática de duplicados
+- Mensajes informativos de éxito/error
+
+#### 🔄 Obtener nuevo chiste
+- Botón "Nuevo Chiste" para obtener otro chiste aleatorio
+- Limpia el cache de sesión automáticamente
+
+### �📁 Estructura del proyecto:
+
+```
+src/
+├── Controller/
+│   └── JokesController.php          # Controlador principal con lógica de negocio
+├── Model/
+│   ├── Entity/
+│   │   └── Joke.php                 # Entidad Joke con propiedades
+│   └── Table/
+│       └── JokesTable.php           # Modelo con validaciones y métodos optimizados
+templates/
+└── Jokes/
+    └── random.php                   # Vista principal con formulario
+config/
+├── routes.php                       # Rutas personalizadas
+├── app_local.php                    # Configuración de base de datos
+└── Migrations/
+    └── 20251003140801_CreateJokes.php # Migración de la tabla jokes
 ```
 
-In case you want to use a custom app dir name (e.g. `/myapp/`):
+### 🗄️ Esquema de base de datos:
 
-```bash
-composer create-project --prefer-dist cakephp/app myapp
+```sql
+CREATE TABLE jokes (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    setup VARCHAR(255) NOT NULL,        -- Texto del chiste
+    punchline VARCHAR(255),             -- Remate (opcional)
+    created DATETIME,                   -- Fecha de creación
+    modified DATETIME                   -- Fecha de modificación
+);
 ```
 
-You can now either use your machine's webserver to view the default home page, or start
-up the built-in webserver with:
+### 🔧 Optimizaciones implementadas:
+
+#### ⚡ Rendimiento
+- **Cache en sesión**: Los chistes se almacenan temporalmente para evitar peticiones innecesarias
+- **Inserción directa**: Bypass del ORM para operaciones de guardado más rápidas
+- **Timeout HTTP**: Límite de 5 segundos en peticiones a la API externa
+- **Validación de duplicados**: Método `jokeExists()` optimizado
+
+#### 🛡️ Seguridad
+- **Escape HTML**: Todos los datos se escapan antes de mostrar
+- **Validación de datos**: Longitud máxima y tipos de datos
+- **Sanitización**: Truncado automático a 255 caracteres
+
+### 🧪 Testing y desarrollo:
 
 ```bash
-bin/cake server -p 8765
+# Ejecutar migraciones en modo desarrollo
+php bin/cake.php migrations migrate
+
+# Verificar estado de las migraciones
+php bin/cake.php migrations status
+
+# Generar modelos con Bake
+php bin/cake.php bake model Jokes --no-test
 ```
 
-Then visit `http://localhost:8765` to see the welcome page.
+### 🚦 Rutas disponibles:
 
-## Update
+| Método | URL | Acción | Descripción |
+|--------|-----|--------|-------------|
+| GET | `/jokes/random` | random | Muestra chiste aleatorio |
+| POST | `/jokes/random` | random | Guarda chiste en BD |
+| GET | `/jokes/new` | newJoke | Obtiene nuevo chiste |
 
-Since this skeleton is a starting point for your application and various files
-would have been modified as per your needs, there isn't a way to provide
-automated upgrades, so you have to do any updates manually.
+### 🐛 Solución de problemas:
 
-## Configuration
+#### Puerto ocupado
+```bash
+# Verificar puertos en uso
+lsof -i :8765 -sTCP:LISTEN -n -P
 
-Read and edit the environment specific `config/app_local.php` and set up the
-`'Datasources'` and any other configuration relevant for your application.
-Other environment agnostic settings can be changed in `config/app.php`.
+# Usar puerto alternativo
+php -S 0.0.0.0:8770 -t webroot
+```
 
-## Layout
+#### Error de permisos en SQLite
+```bash
+# Dar permisos al directorio tmp
+chmod 755 tmp/
+touch tmp/database.sqlite
+chmod 664 tmp/database.sqlite
+```
 
-The app skeleton uses [Milligram](https://milligram.io/) (v1.3) minimalist CSS
-framework by default. You can, however, replace it with any other library or
-custom styles.
+### 📸 Capturas de pantalla:
+
+_[Aquí se incluirían las imágenes del funcionamiento de la aplicación]_
+
+### 🤝 Contribuciones:
+
+Este proyecto fue desarrollado siguiendo el tutorial y guías proporcionadas:
+- [GUIDE_JOKES.md](https://github.com/maximofernandezriera/chuck-jokes/blob/main/GUIDE_JOKES.md)
+- [README original](https://github.com/maximofernandezriera/chuck-jokes/blob/main/README.md)
+
+### 📚 Recursos adicionales:
+
+- [Documentación oficial CakePHP 5](https://book.cakephp.org/5/en/index.html)
+- [Chuck Norris API](https://api.chucknorris.io/)
+- [SQLite Documentation](https://www.sqlite.org/docs.html)
