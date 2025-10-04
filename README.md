@@ -164,7 +164,13 @@ chmod 664 tmp/database.sqlite
 
 ### 📸 Capturas de pantalla:
 
-_[Aquí se incluirían las imágenes del funcionamiento de la aplicación]_
+A continuación se muestran capturas del funcionamiento de la aplicación Chuck Norris Jokes:
+
+![Captura 1 - Página principal mostrando un chiste aleatorio](docs/images/captura1.png)
+*Página principal con chiste de Chuck Norris y opciones para guardar o obtener uno nuevo*
+
+![Captura 2 - Funcionalidad de guardado y gestión de chistes](docs/images/captura2.png)
+*Interface de usuario mostrando el proceso de guardado de chistes en la base de datos*
 
 ### 🤝 Contribuciones:
 
